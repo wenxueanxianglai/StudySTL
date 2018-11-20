@@ -83,6 +83,7 @@ void TsetShared_ptrByOtherDelete()
 }
 
 
+
 //////////////////////////////////////////////////////////////////////////
 // This function should be runed on Unix/Linux
 //class SharedMemoryDetacher
@@ -147,3 +148,69 @@ void TsetShared_ptrByOtherDelete()
 
 
 //////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////////////
+class Person
+{
+public:
+    string name;
+    shared_ptr<Person> mother;
+    shared_ptr<Person> father;
+    vector<weak_ptr<Person>> kids;
+
+    Person (const string& n, shared_ptr<Person> m = nullptr, shared_ptr<Person> f = nullptr)
+        : name(n)
+        , mother(m)
+        , father(f)
+    { }
+
+    ~Person()
+    {
+        cout << "delete " << name << endl;
+    }
+};
+
+shared_ptr<Person> initFamily(const string& name)
+{
+    shared_ptr<Person> mom(new Person(name + "'s mom"));
+    shared_ptr<Person> dad(new Person(name + "'s dad"));
+    shared_ptr<Person> kid(new Person(name, mom, dad));
+
+    mom->kids.push_back(kid);
+    dad->kids.push_back(kid);
+
+    return kid;
+}
+
+void TestWeak_ptr()
+{
+    shared_ptr<Person> p = initFamily("nico");
+
+    cout << "nico's family exists" << endl;
+    cout << " - nico is shared " << p.use_count() << " times" << endl;
+    cout << " - name of lst kid of nico's mom: " << p->mother->kids[0].lock()->name << endl;
+
+    p = initFamily("Jim");
+    cout << "jim's family exists" << endl;
+}
+
+void TestWeak_ptrToShared()
+{
+    try
+    {
+        shared_ptr<string> sp(new string("hi"));
+        cout << sp.use_count() << endl;
+
+        weak_ptr<string> wp = sp;
+        cout << wp.use_count() << endl;
+
+        sp.reset();
+        cout << wp.use_count() << endl;
+
+        cout << boolalpha << wp.expired() << endl;
+    }
+    catch(...)
+    {
+
+    }
+}
