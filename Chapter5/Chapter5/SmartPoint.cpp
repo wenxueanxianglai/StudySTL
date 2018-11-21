@@ -150,7 +150,7 @@ void TsetShared_ptrByOtherDelete()
 //////////////////////////////////////////////////////////////////////////
 
 //////////////////////////////////////////////////////////////////////////
-class Person
+class Person : public std::enable_shared_from_this<Person>
 {
 public:
     string name;
@@ -158,11 +158,26 @@ public:
     shared_ptr<Person> father;
     vector<weak_ptr<Person>> kids;
 
-    Person (const string& n, shared_ptr<Person> m = nullptr, shared_ptr<Person> f = nullptr)
+    Person (const string& n)
         : name(n)
-        , mother(m)
-        , father(f)
+        , mother(nullptr)
+        , father(nullptr)
     { }
+
+    void setParentAndTheirKids(shared_ptr<Person> m = nullptr, shared_ptr<Person> f = nullptr)
+    {
+        mother = m;
+        father = f;
+        if (m != nullptr)
+        {
+            m->kids.push_back(shared_from_this());      //OK
+        }
+
+        if (f != nullptr)
+        {
+            f->kids.push_back(shared_from_this());      //OK
+        }
+    }
 
     ~Person()
     {
@@ -198,19 +213,48 @@ void TestWeak_ptrToShared()
 {
     try
     {
-        shared_ptr<string> sp(new string("hi"));
+        shared_ptr<string> sp(new string("hi"));    //create shared pointer
         cout << sp.use_count() << endl;
 
-        weak_ptr<string> wp = sp;
+        weak_ptr<string> wp = sp;                   //create weak pointer out of it
         cout << wp.use_count() << endl;
 
-        sp.reset();
-        cout << wp.use_count() << endl;
+        sp.reset();                                 //release object of shared pointer
+        cout << wp.use_count() << endl;             //prints: 0
 
-        cout << boolalpha << wp.expired() << endl;
+        cout << boolalpha << wp.expired() << endl;  //prints: true
+
+        shared_ptr<string> p(wp);                   //throws std::bad_weak_ptr
     }
-    catch(...)
+    catch(const std::exception& e)
     {
+        cerr << "exception: " << e.what() << endl;  //ptints: bad_weak_ptr
 
     }
+}
+
+void TestShared_ptrUse()
+{
+    //int* p = new int;
+    //shared_ptr<int> sp1(p);  
+    //shared_ptr<int> sp2(p);   ERROR
+
+    shared_ptr<int> sp1(new int);
+    shared_ptr<int> sp2(sp1);      //OK
+}
+
+void TestShared_ptrGetDeleter()
+{
+    auto del = [](int* p)
+    {
+        delete p;
+    };
+
+    shared_ptr<int> p(new int, del);
+    decltype(del)* pd = get_deleter<decltype(del)>(p);
+}
+
+void TestShared_ptrMoreOperator()
+{
+
 }
