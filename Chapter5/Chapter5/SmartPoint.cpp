@@ -189,7 +189,9 @@ shared_ptr<Person> initFamily(const string& name)
 {
     shared_ptr<Person> mom(new Person(name + "'s mom"));
     shared_ptr<Person> dad(new Person(name + "'s dad"));
-    shared_ptr<Person> kid(new Person(name, mom, dad));
+    //shared_ptr<Person> kid(new Person(name, mom, dad));
+    shared_ptr<Person> kid(new Person(name));
+    kid->setParentAndTheirKids(mom, dad);
 
     mom->kids.push_back(kid);
     dad->kids.push_back(kid);

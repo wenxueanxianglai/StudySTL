@@ -24,9 +24,15 @@
     <ClCompile Include="SmartPoint.cpp">
       <Filter>SmartPoint</Filter>
     </ClCompile>
+    <ClCompile Include="TestUniquePtr.cpp">
+      <Filter>SmartPoint</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SmartPoint.h">
+      <Filter>SmartPoint</Filter>
+    </ClInclude>
+    <ClInclude Include="TestUniquePtr.h">
       <Filter>SmartPoint</Filter>
     </ClInclude>
   </ItemGroup>

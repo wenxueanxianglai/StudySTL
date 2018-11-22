@@ -1,5 +1,6 @@
 #include <iostream>
 #include "SmartPoint.h"
+#include "TestUniquePtr.h"
 
 using namespace std;
 
@@ -10,8 +11,10 @@ int main()
     //TestWeak_ptr();
     //TestWeak_ptrToShared();
 
-    TestShared_ptrUse();
-
+    //TestShared_ptrUse();
+  //  TesUnique_ptrByAccessObject();
+    //TestUnique_ptrByConstructor();
+    TestUnique_ptrByMove();
     getchar();
     return 0;
 }
