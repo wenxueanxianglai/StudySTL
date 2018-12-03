@@ -75,3 +75,58 @@ void TestUnique_ptrByMove()
 
 
 }
+
+//////////////////////////////////////////////////////////////
+// unique_ptrs as Members
+//class ClassA;
+
+class ClassB
+{
+    std::unique_ptr<int> ptr1;
+    std::unique_ptr<int> ptr2;  //unique_ptr member
+    
+    //int* ptr_1;      //pointer memebers;
+    //int* ptr_2;
+
+public:
+    //constructor thar initializes the pointers
+    // - will cause resource leak if second new throws
+    ClassB(int val_1, int val_2)
+        : ptr1(new int(val_1))
+        , ptr2(new int(val_2))
+    {
+
+    }
+
+    //copy constructor
+    // - might cause resouce leak if second new throws
+    ClassB(const ClassB& x)
+        : ptr1(new  int(*x.ptr1)), ptr2(new int(*x.ptr2))
+    {
+
+    }
+
+    //assignment operator
+    const ClassB& operator = (const ClassB& x)
+    {
+        *ptr1 = *x.ptr1;
+        *ptr2 = *x.ptr2;
+
+        return *this;
+    }
+
+};
+
+void TestUnique_ptrByMember()
+{
+    ClassB b(2, 3);
+}
+
+////////////////////////////////////////////////
+//Using Deleter
+
+void TestUnique_ptrByDeleter()
+{
+    
+
+}
