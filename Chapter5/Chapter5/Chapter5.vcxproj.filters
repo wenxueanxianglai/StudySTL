@@ -16,6 +16,9 @@
     <Filter Include="SmartPoint">
       <UniqueIdentifier>{0ea042d3-8fde-4847-959e-70a5afa7d8e7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Numeric">
+      <UniqueIdentifier>{af11c365-d314-499e-8ce7-58985bc07006}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -27,6 +30,9 @@
     <ClCompile Include="TestUniquePtr.cpp">
       <Filter>SmartPoint</Filter>
     </ClCompile>
+    <ClCompile Include="TestNumeric.cpp">
+      <Filter>Numeric</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SmartPoint.h">
@@ -34,6 +40,9 @@
     </ClInclude>
     <ClInclude Include="TestUniquePtr.h">
       <Filter>SmartPoint</Filter>
+    </ClInclude>
+    <ClInclude Include="TestNumeric.h">
+      <Filter>Numeric</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

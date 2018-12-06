@@ -148,10 +148,12 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SmartPoint.cpp" />
+    <ClCompile Include="TestNumeric.cpp" />
     <ClCompile Include="TestUniquePtr.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SmartPoint.h" />
+    <ClInclude Include="TestNumeric.h" />
     <ClInclude Include="TestUniquePtr.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
